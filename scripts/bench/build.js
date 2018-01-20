@@ -9,8 +9,8 @@ const {join} = require('path');
 
 const reactUrl = 'https://github.com/facebook/react.git';
 
-function cleanDir() {
-  return new Promise(_resolve => rimraf('remote-repo', _resolve));
+function cleanDir(remoteRepoDir) {
+  return new Promise(_resolve => rimraf(remoteRepoDir, _resolve));
 }
 
 function executeCommand(command) {
@@ -74,7 +74,7 @@ async function buildBenchmarkBundlesFromGitRepo(
       await cleanDir(remoteRepoDir);
     }
     // check if remote-repo diretory already exists
-    if (existsSync(join(__dirname, 'remote-repo'))) {
+    if (existsSync(remoteRepoDir)) {
       repo = await Git.Repository.open(remoteRepoDir);
       // fetch all the latest remote changes
       await repo.fetchAll();
